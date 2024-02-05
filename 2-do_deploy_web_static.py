@@ -5,7 +5,6 @@ from fabric.api import env, put, run
 
 env.hosts = ["100.26.159.155", "100.26.122.170"]
 
-
 def do_deploy(archive_path):
     """Distributes an archive to a web server.
 
@@ -20,7 +19,9 @@ def do_deploy(archive_path):
 
     # Extracting relevant information from the archive_path
     file_name = os.path.basename(archive_path)
-    name = os.path.splitext(file_name)[0]
+    # Using a timestamp for a unique version name
+    timestamp = run("date +'%Y%m%d%H%M%S'").stdout.strip()
+    name = "web_static_{}".format(timestamp)
 
     # Remote paths
     remote_tmp_path = "/tmp/{}".format(file_name)
